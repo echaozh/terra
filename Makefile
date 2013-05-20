@@ -26,7 +26,7 @@ UNAME := $(shell uname)
 AR = ar
 LD = ld
 FLAGS = -g $(INCLUDE_PATH)
-LFLAGS = -g
+LFLAGS = -g -rdynamic
 
 #luajit will be downloaded automatically (it's much smaller than llvm)
 LUAJIT_VERSION=LuaJIT-2.0.1
