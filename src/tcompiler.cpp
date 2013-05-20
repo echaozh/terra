@@ -146,7 +146,7 @@ int terra_compilerinit(struct terra_State * T) {
     std::string Triple = llvm::sys::getDefaultTargetTriple();
     std::string err;
     const Target *TheTarget = TargetRegistry::lookupTarget(Triple, err);
-    TargetMachine * TM = TheTarget->createTargetMachine(Triple, "", "+avx", options,Reloc::Default,CodeModel::Default,OL);
+    TargetMachine * TM = TheTarget->createTargetMachine(Triple, "", "", options,Reloc::Default,CodeModel::Default,OL);
     T->C->td = TM->TARGETDATA(get)();
     
     
@@ -2105,12 +2105,9 @@ static int terra_jit(lua_State * L) {
             //for now if we need it, we deal with the hacks...
             LLVMLinkInJIT();
             LLVMLinkInMCJIT();
-            std::vector<std::string> attr;
-            attr.push_back("+avx");
             std::string err;
             ee = EngineBuilder(T->C->m)
                  .setUseMCJIT(true)
-                 .setMAttrs(attr)
                  .setErrorStr(&err)
                  .setEngineKind(EngineKind::JIT)
                  .create(T->C->tm);
